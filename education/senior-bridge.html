@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Glow Stack | Legends Bridge</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --bg: #050505; --glass: rgba(255,255,255,0.05); --primary: #00f3ff; }
+        body { background: var(--bg); color: white; font-family: sans-serif; height: 100vh; margin: 0; display: flex; flex-direction: column; }
+        
+        /* NAV */
+        nav { padding: 1rem 2rem; background: rgba(0,0,0,0.8); border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: bold; color: var(--primary); font-size: 1.2rem; }
+        .nav-links a { color: #888; text-decoration: none; margin-left: 20px; }
+        .nav-links a.active { color: white; }
+
+        /* LAYOUT */
+        .container { display: grid; grid-template-columns: 280px 1fr; flex: 1; overflow: hidden; }
+        
+        /* SIDEBAR */
+        .sidebar { padding: 1rem; border-right: 1px solid #333; overflow-y: auto; background: #0a0a0a; }
+        .cat-title { font-size: 0.7rem; color: #666; text-transform: uppercase; margin: 20px 0 10px 5px; font-weight: bold; }
+        
+        .card { padding: 12px; margin-bottom: 8px; background: var(--glass); border-radius: 8px; cursor: pointer; display: flex; align-items: center; transition: 0.2s; border: 1px solid transparent; }
+        .card:hover { border-color: var(--primary); }
+        .card.active { background: rgba(0,243,255,0.1); border-left: 3px solid var(--primary); }
+        
+        .icon { width: 35px; height: 35px; background: #222; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px; color: var(--primary); }
+        .info h3 { font-size: 0.9rem; margin: 0; }
+        .info p { font-size: 0.7rem; color: #888; margin: 2px 0 0 0; }
+
+        /* CHAT */
+        .chat-area { display: flex; flex-direction: column; background: radial-gradient(circle at 50% 50%, #111 0%, #000 100%); }
+        .header { padding: 1.5rem; border-bottom: 1px solid #333; }
+        .messages { flex: 1; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; }
+        
+        .msg { padding: 12px 18px; border-radius: 12px; max-width: 75%; line-height: 1.5; font-size: 0.95rem; }
+        .ai { align-self: flex-start; background: #222; color: #ddd; border: 1px solid #333; }
+        .user { align-self: flex-end; background: var(--primary); color: #000; font-weight: 500; }
+        
+        .input-box { padding: 1.5rem; background: rgba(0,0,0,0.5); display: flex; gap: 10px; }
+        input { flex: 1; padding: 12px 20px; border-radius: 50px; border: 1px solid #333; background: #111; color: white; outline: none; }
+        button { padding: 0 25px; border-radius: 50px; border: none; background: var(--primary); font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">GLOW STACK <span style="font-size:0.8em; opacity:0.7;">LEGENDS</span></div>
+        <div class="nav-links">
+            <a href="../index.html">Home</a>
+            <a href="./education.html">Education</a>
+            <a href="./tube-scribe.html">Tube Scribe</a>
+            <a href="#" class="active">Mentors</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="cat-title">Tech Visionaries</div>
+            <div class="card active" onclick="setMentor('sundar', 'Sundar Pichai')">
+                <div class="icon"><i class="fab fa-google"></i></div><div class="info"><h3>Sundar Pichai</h3><p>CEO, Google</p></div>
+            </div>
+            <div class="card" onclick="setMentor('elon', 'Elon Musk')">
+                <div class="icon"><i class="fas fa-rocket"></i></div><div class="info"><h3>Elon Musk</h3><p>Technoking</p></div>
+            </div>
+            <div class="card" onclick="setMentor('jobs', 'Steve Jobs')">
+                <div class="icon"><i class="fab fa-apple"></i></div><div class="info"><h3>Steve Jobs</h3><p>Visionary</p></div>
+            </div>
+
+            <div class="cat-title">IIT Delhi Legends</div>
+            <div class="card" onclick="setMentor('ashneer', 'Ashneer Grover')">
+                <div class="icon" style="color:#ff4444;"><i class="fas fa-rupee-sign"></i></div><div class="info"><h3>Ashneer Grover</h3><p>The Blunt Founder</p></div>
+            </div>
+            <div class="card" onclick="setMentor('deepinder', 'Deepinder Goyal')">
+                <div class="icon" style="color:#ff4444;"><i class="fas fa-utensils"></i></div><div class="info"><h3>Deepinder Goyal</h3><p>CEO, Zomato</p></div>
+            </div>
+
+            <div class="cat-title">Student Mentors</div>
+            <div class="card" onclick="setMentor('aryan', 'Aryan (IIT Delhi)')">
+                <div class="icon" style="color:#ffcc00;"><i class="fas fa-user-graduate"></i></div><div class="info"><h3>Aryan</h3><p>CSE Senior</p></div>
+            </div>
+            <div class="card" onclick="setMentor('riya', 'Riya (IIT Bombay)')">
+                <div class="icon" style="color:#ff00dd;"><i class="fas fa-file-alt"></i></div><div class="info"><h3>Riya</h3><p>Placement Coord</p></div>
+            </div>
+
+            <div class="cat-title">Wellness</div>
+            <div class="card" onclick="setMentor('aditi', 'Dr. Aditi')">
+                <div class="icon" style="color:#00ff88;"><i class="fas fa-heart"></i></div><div class="info"><h3>Dr. Aditi</h3><p>Counselor</p></div>
+            </div>
+        </div>
+
+        <div class="chat-area">
+            <div class="header"><h2 id="m-name">Sundar Pichai</h2></div>
+            <div class="messages" id="box">
+                <div class="msg ai">Namaste. I am Sundar. How can I help you build the future?</div>
+            </div>
+            <div class="input-box">
+                <input type="text" id="inp" placeholder="Ask for advice..." onkeypress="if(event.key==='Enter') send()">
+                <button onclick="send()">SEND</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        let curr = 'sundar';
+        let hist = [];
+
+        const greets = {
+            'sundar': "Namaste. I am Sundar. How can I help you build the future?",
+            'elon': "Mars awaits. What is your question?",
+            'jobs': "Simplicity is the ultimate sophistication. What are you building?",
+            'ratan': "Ethics and trust come first. How can I guide you?",
+            'ashneer': "Bhai kya kar raha hai tu? Seedha bol, what is the problem?",
+            'deepinder': "Hustle hard. What are you shipping today?",
+            'aryan': "Hey! Aryan from IIT Delhi here. Stuck on LeetCode?",
+            'riya': "Hi! Let's fix that resume. What's your doubt?",
+            'aditi': "Hello dear. Take a deep breath. I am here to listen."
+        };
+
+        function setMentor(id, name) {
+            curr = id; hist = [];
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            document.getElementById('m-name').innerText = name;
+            document.getElementById('box').innerHTML = `<div class="msg ai">${greets[id] || "Hello."}</div>`;
+        }
+
+        async function send() {
+            const inp = document.getElementById('inp');
+            const box = document.getElementById('box');
+            const txt = inp.value;
+            if(!txt) return;
+
+            box.innerHTML += `<div class="msg user">${txt}</div>`;
+            inp.value = '';
+            box.scrollTop = box.scrollHeight;
+            
+            const loadId = `l-${Date.now()}`;
+            box.innerHTML += `<div class="msg ai" id="${loadId}">...</div>`;
+
+            try {
+                const res = await fetch('http://127.0.0.1:3000/api/senior-chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ seniorId: curr, message: txt, history: hist })
+                });
+                const data = await res.json();
+                document.getElementById(loadId).innerHTML = marked.parse(data.reply);
+                hist.push({role: "user", parts: [{text: txt}]}, {role: "model", parts: [{text: data.reply}]});
+            } catch(e) {
+                document.getElementById(loadId).innerText = "Server Error.";
+            }
+            box.scrollTop = box.scrollHeight;
+        }
+    </script>
+</body>
+</html>

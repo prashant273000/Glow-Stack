@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Legendary Fitness AI | Video Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #00f3ff;
+            --purple: #bc13fe;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            background: var(--bg);
+            background-image: radial-gradient(circle at 50% -20%, rgba(188, 19, 254, 0.2), transparent 50%);
+            color: white;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0; padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; text-align: center; }
+
+        /* --- SEARCH SECTION --- */
+        .search-area {
+            background: var(--glass);
+            border: 1px solid rgba(188, 19, 254, 0.2);
+            padding: 40px;
+            border-radius: 30px;
+            backdrop-filter: blur(20px);
+            margin-bottom: 50px;
+        }
+
+        input, select {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 10px;
+            width: 250px;
+        }
+
+        .glow-btn {
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border: none; padding: 15px 40px; border-radius: 50px;
+            font-weight: 800; cursor: pointer; transition: 0.3s;
+        }
+
+        /* --- FLOATING VIDEO GRID --- */
+        .video-vault {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .video-card {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 15px;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 15px 30px rgba(0, 243, 255, 0.1);
+        }
+
+        .video-wrapper {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .video-card h4 { margin: 10px 0; font-family: 'Space Grotesk'; color: var(--accent); }
+        .video-card p { font-size: 0.85rem; color: #888; }
+
+        /* --- AI REPORT OVERLAY --- */
+        #ai-report {
+            background: rgba(188, 19, 254, 0.05);
+            border: 1px solid var(--purple);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 40px;
+            display: none;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 style="font-family:'Space Grotesk'; font-size: 3.5rem;">Legendary <span style="color:var(--purple)">Vault</span></h1>
+        <p style="color:#666; margin-bottom: 40px;">Nutrition-Sync Training for B.Tech Legends</p>
+
+        <div class="search-area">
+            <input type="text" id="meal" placeholder="What's in the mess menu?">
+            <select id="goal">
+                <option value="Fat Loss">Shred (Fat Loss)</option>
+                <option value="Muscle Gain">Bulk (Muscle)</option>
+                <option value="Maintain">Active (Energy)</option>
+            </select>
+            <button class="glow-btn" onclick="syncVault()">SYNC VAULT</button>
+        </div>
+
+        <div id="ai-report"></div>
+
+        <h2 style="text-align:left; font-family:'Space Grotesk'; color:var(--accent);">
+            <i class="fas fa-play-circle"></i> Recommended Workouts
+        </h2>
+
+        <div class="video-vault" id="vault-grid">
+            </div>
+    </div>
+
+    <script>
+        const vaultGrid = document.getElementById('vault-grid');
+        
+        // Curated "Hostel-Friendly" Workout Library
+        const workouts = [
+            { id: "ml6cT4AZdqI", title: "20 Min HIIT", category: "Fat Loss", desc: "Burn mess calories fast." },
+            { id: "30PqX2zvK88", title: "Bodyweight Power", category: "Muscle Gain", desc: "No equipment strength." },
+            { id: "2MoGxae-zyo", title: "Energy Flow", category: "Maintain", desc: "Fix posture after coding." },
+            { id: "kWodISSgIqI", title: "Abs in 5 Mins", category: "Any", desc: "Quick hostel room session." },
+            { id: "9V5TmtWWyyg", title: "Upper Body Burner", category: "Muscle Gain", desc: "Dorm room chest/shoulders." },
+            { id: "Eml2xnoLpYE", title: "Desk Yoga", category: "Maintain", desc: "Relieve neck pain." }
+        ];
+
+        function displayVault(filter = "Any") {
+            vaultGrid.innerHTML = '';
+            workouts.forEach(w => {
+                if (filter === "Any" || w.category === filter || w.category === "Any") {
+                    vaultGrid.innerHTML += `
+                        <div class="video-card">
+                            <div class="video-wrapper">
+                                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${w.id}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <h4>${w.title}</h4>
+                            <p>${w.desc}</p>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        async function syncVault() {
+            const meal = document.getElementById('meal').value;
+            const goal = document.getElementById('goal').value;
+            if(!meal) return alert("Enter your meal!");
+
+            // 1. Hit your Groq API in server.js
+            try {
+                const res = await fetch('http://localhost:3000/api/legendary-fitness', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ messMeal: meal, fitnessGoal: goal })
+                });
+                const data = await res.json();
+                
+                document.getElementById('ai-report').style.display = 'block';
+                document.getElementById('ai-report').innerHTML = marked.parse(data.reply);
+                
+                // 2. Filter the "Floating" videos to match the goal
+                displayVault(goal);
+                
+            } catch(e) { console.log("Server error"); }
+        }
+
+        // Load all videos initially
+        displayVault();
+    </script>
+</body>
+</html>

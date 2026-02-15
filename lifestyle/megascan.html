@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Glow Stack | Mega Scan</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection"></script>
+    
+    <style>
+        :root { --bg: #050505; --accent: #bc13fe; --cyan: #00f3ff; }
+        body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
+        .container { max-width: 550px; width: 100%; text-align: center; }
+        .upload-card {
+            width: 100%; aspect-ratio: 16/9; border-radius: 20px; border: 2px dashed #444;
+            background: rgba(255,255,255,0.02); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; margin: 20px 0; overflow: hidden;
+        }
+        #preview { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .btn { 
+            background: linear-gradient(135deg, var(--accent), #7000ff); 
+            color: white; border: none; padding: 18px; border-radius: 50px; 
+            font-weight: bold; cursor: pointer; width: 100%; font-size: 1.1rem;
+        }
+        .report-box {
+            background: rgba(255,255,255,0.05); border: 1px solid var(--accent);
+            border-radius: 20px; padding: 25px; text-align: left; margin-top: 30px; display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Mega <span style="color:var(--accent)">Glow Scan</span></h1>
+        <p style="color:#888;">Complete AI Grooming Report in one click.</p>
+
+        <label class="upload-card">
+            <div id="uptxt"><i class="fas fa-file-upload"></i> Upload Selfie</div>
+            <img id="preview">
+            <input type="file" id="imgInput" accept="image/*" style="display:none;">
+        </label>
+
+        <button class="btn" id="scanBtn" onclick="runMegaScan()" disabled>START MEGA ANALYSIS</button>
+
+        <div id="result" class="report-box">
+            <div id="report-content"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        const input = document.getElementById('imgInput');
+        const preview = document.getElementById('preview');
+        const btn = document.getElementById('scanBtn');
+        let detector;
+
+        async function init() {
+            detector = await faceLandmarksDetection.createDetector(
+                faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh, { runtime: 'tfjs' }
+            );
+            document.getElementById('uptxt').innerText = "AI Loaded. Upload Photo!";
+        }
+
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    preview.src = ev.target.result;
+                    preview.style.display = 'block';
+                    document.getElementById('uptxt').style.display = 'none';
+                    btn.disabled = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+
+        async function runMegaScan() {
+            btn.innerText = "Analyzing Face Geometry...";
+            const faces = await detector.estimateFaces(preview);
+
+            if (faces.length > 0) {
+                const kp = faces[0].keypoints;
+                const ratio = (kp[152].y - kp[10].y) / (kp[454].x - kp[234].x);
+                let shape = ratio > 1.5 ? "Oval" : (ratio < 1.25 ? "Round" : "Square");
+
+                btn.innerText = "Consulting Stylist...";
+                const res = await fetch('http://localhost:3000/api/mega-style', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ shape: shape })
+                });
+                const data = await res.json();
+                
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('report-content').innerHTML = marked.parse(data.reply);
+            } else {
+                alert("No face found!");
+            }
+            btn.innerText = "START MEGA ANALYSIS";
+        }
+        init();
+    </script>
+</body>
+</html>

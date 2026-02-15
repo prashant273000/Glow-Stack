@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glow Stack | Lifestyle Mode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(188, 19, 254, 0.2); /* Purple Border */
+            --accent: #bc13fe; /* Neon Purple */
+            --text-main: #ffffff;
+            --text-muted: #888888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(188, 19, 254, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.1) 0%, transparent 40%);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo { 
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            letter-spacing: -1px;
+        }
+        .logo span { color: var(--accent); }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-item { 
+            color: var(--text-muted); 
+            text-decoration: none; 
+            font-weight: 600; 
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+        .nav-item:hover, .nav-item.active { color: var(--accent); text-shadow: 0 0 15px var(--accent); }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 40px;
+        }
+        
+        .mode-badge {
+            background: rgba(188, 19, 254, 0.1);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.2);
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+        
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- GRID LAYOUT --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        /* --- CARDS --- */
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 40px rgba(188, 19, 254, 0.15);
+        }
+
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: rgba(188, 19, 254, 0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+        }
+
+        .tool-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .tool-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        /* BUTTONS */
+        .launch-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid var(--accent);
+            padding: 12px 0;
+            text-align: center;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .launch-btn:hover {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 0 20px rgba(188, 19, 254, 0.4);
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">GLOW<span>STACK</span></div>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-item">Home</a>
+            <a href="../education/education.html" class="nav-item">Education</a>
+            <a href="#" class="nav-item active">Lifestyle</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <span class="mode-badge">Glow Up Protocol</span>
+        <h1>Design Your <span style="color:var(--accent); text-shadow:0 0 20px rgba(188,19,254,0.4);">Best Self</span></h1>
+        <p>AI-powered grooming, fitness, and confidence tools optimized for students.</p>
+    </section>
+
+    <main class="container">
+        <div class="tool-grid">
+
+            <div class="tool-card">
+                <div class="icon">💈</div>
+                <h3>AI Hairstyle Advisor</h3>
+                <p>Upload a selfie. Our AI analyzes your face shape (Oval, Square, etc.) and suggests the top 3 haircuts that suit you best.</p>
+                <a href="./hairstyle.html" class="launch-btn">Find My Style →</a>
+            </div>
+
+            <div class="tool-card">
+                <div class="icon">✨</div>
+                <h3>Legendry Scanner AI</h3>
+                <p>Detects acne, dark circles, or dry spots. Generates a personalized skincare routine using affordable home remedies.</p>
+                <p>Patchy beard? Strong jawline? AI evaluates your facial hair density and recommends the perfect grooming style.</p>
+                <p>Not sure which frames look good? AI scans your face geometry to recommend glasses that enhance your look.</p>
+                <a href="./megascan.html" class="launch-btn">Check Skin →</a>
+            </div>
+
+            <!-- <div class="tool-card">
+                <div class="icon">🥸</div>
+                <h3>Beard & Stache Guide</h3>
+                <p>Patchy beard? Strong jawline? AI evaluates your facial hair density and recommends the perfect grooming style.</p>
+                <a href="glow-up.html?mode=beard" class="launch-btn">Style Beard →</a>
+            </div> -->
+
+            <!-- <div class="tool-card">
+                <div class="icon">👓</div>
+                <h3>Spectacle Match</h3>
+                <p>Not sure which frames look good? AI scans your face geometry to recommend glasses that enhance your look.</p>
+                <a href="glow-up.html?mode=glasses" class="launch-btn">Find Frames →</a>
+            </div> -->
+
+            <!-- <div class="tool-card">
+                <div class="icon">👕</div>
+                <h3>Fit & Style Advisor</h3>
+                <p>Recommends outfits based on your body type (Ectomorph, Mesomorph) and skin tone. Stop guessing what to wear.</p>
+                <a href="glow-up.html?mode=style" class="launch-btn">Get Styled →</a>
+            </div> -->
+
+             <!-- <div class="tool-card">
+                <div class="icon">🧬</div>
+                <h3>Hair Health Analyzer</h3>
+                <p>Zoom in on a hair strand. AI determines if it's damaged, oily, or dry and suggests simple care tips.</p>
+                <a href="glow-up.html?mode=hair-health" class="launch-btn">Analyze Hair →</a>
+            </div> -->
+
+            <div class="tool-card">
+                <div class="icon">🏠</div>
+                <h3>Legendry Fitness AI</h3>
+                <p>No gym? No problem. Get a customized workout plan you can do in your hostel room with zero equipment.</p>
+                <p>Tell AI what you eat in the mess. It creates a plan to maximize protein and energy while keeping it realistic.</p>
+                <a href="./fitness.html" class="launch-btn">Plan Your Fitness→</a>
+            </div>
+
+            <!-- <div class="tool-card">
+                <div class="icon">🥗</div>
+                <h3>Student Diet Planner</h3>
+                <p>Tell AI what you eat in the mess. It creates a plan to maximize protein and energy while keeping it realistic.</p>
+                <a href="glow-up.html?mode=diet" class="launch-btn">Plan Meals →</a>
+            </div> -->
+
+            <!-- <div class="tool-card">
+                <div class="icon">🩺</div>
+                <h3>Visual Health Check</h3>
+                <p>Scans eyes and skin for signs of anemia, dehydration, or fatigue, and suggests immediate fixes.</p>
+                <a href="glow-up.html?mode=health" class="launch-btn">Health Scan →</a>
+            </div> -->
+
+            <div class="tool-card">
+                <div class="icon">🦁</div>
+                <h3>Confidence Booster</h3>
+                <p>Daily body language challenges and psychological tips to help you walk into any room like you own it.</p>
+                <a href="./confidence.html" class="launch-btn">Boost Confidence →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p style="text-align:center; color:#555; padding-bottom:20px;">Glow Stack Lifestyle | Hackathon 2026</p>
+    </footer>
+
+</body>
+</html>
